@@ -12,7 +12,13 @@ class Item(ItemBase):
     owner_id: int
 
     class Config:
-        from_attributes = True
+        from_attributes = True 
+        
+'''
+Pydantic's from_attributes will tell the Pydantic model
+to read the data even if it is not a dict, but an ORM model
+(or any other arbitrary object with attributes)
+'''
 
 class UserBase(BaseModel):
     email: str

@@ -1,5 +1,5 @@
 from fastapi import Depends, FastAPI, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session # To interact with database
 from sql_app import crud, models, schemas
 from sql_app.database import SessionLocal, engine
 
@@ -10,12 +10,12 @@ app = FastAPI()
 def get_db():
     db = SessionLocal()
     try:
-        yield db
+        yield db # The yield command is used in a function to create a generator
     finally:
         db.close()
 
 @app.post("/users/", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)): # Depends declares the dependencies of an endpoint
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         return HTTPException(status_code=400, detail="Email already registered")
